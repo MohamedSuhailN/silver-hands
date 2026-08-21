@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FFFDF9;
+    color: #2C2520;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  /* Senior Mode Overrides (+25% font, 56px touch targets, high contrast) */
+  body.senior-mode {
+    font-size: 1.25rem;
+    line-height: 1.75;
+    color: #1A1410;
+  }
+
+  body.senior-mode button,
+  body.senior-mode a,
+  body.senior-mode input,
+  body.senior-mode select,
+  body.senior-mode textarea {
+    min-height: 52px;
+    font-size: 1.125rem;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-saffron hover:bg-saffron-dark text-white font-semibold shadow-warm transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-sage hover:bg-sage-dark text-white font-semibold shadow-warm transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-saffron text-saffron hover:bg-saffron/10 font-semibold transition-all duration-200 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-warmgray-700 hover:bg-cream-200 font-medium transition-colors;
+  }
+
+  .card-surface {
+    @apply bg-white rounded-2xl border border-warmgray-200/80 shadow-warm hover:shadow-warm-lg transition-all duration-200;
+  }
+
+  .badge-tag {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .page-title {
+    @apply font-heading text-3xl sm:text-4xl font-bold text-warmgray-900 tracking-tight;
+  }
+}
