@@ -4,10 +4,12 @@ from .views import (
     GenerateProductCardView, ConfirmProductCardView, GrowthAdvisorView,
     FairPriceCheckerView, SmartRecommendationsView,
     ExtractSkillsView, SuggestSkillsView, SuggestServicesView,
-    GenerateDescriptionView, SuggestPriceView, BusinessAssistantView, DetectScamView
+    GenerateDescriptionView, SuggestPriceView, BusinessAssistantView, DetectScamView,
+    AIAssistantView
 )
 
 urlpatterns = [
+    path('assistant/', AIAssistantView.as_view(), name='ai-assistant'),
     path('health/', AIHealthCheckView.as_view(), name='ai-health'),
     path('match/', AIMatchView.as_view(), name='ai-match'),
     path('wizard/', AIProfileWizardView.as_view(), name='ai-wizard'),

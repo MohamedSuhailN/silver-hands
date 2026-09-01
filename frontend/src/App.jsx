@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
-import { VoiceInputModal } from './components/voice/VoiceInputModal';
+import { AssistantModal } from './components/voice/AssistantModal';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -144,7 +144,7 @@ export const App = () => {
       <Footer />
 
       {/* Global Voice Assistant Modal */}
-      <VoiceInputModal
+      <AssistantModal
         isOpen={isVoiceOpen}
         onClose={() => setIsVoiceOpen(false)}
       />

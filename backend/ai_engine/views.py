@@ -16,12 +16,79 @@ from .services.scam_detection import detect_scam_message
 from .services.service_suggestion import suggest_services
 from .services.skill_extraction import extract_skills_from_text
 from .services.skill_suggestion import suggest_skills_and_livelihoods
+from .services.assistant import assistant
 
 User = get_user_model()
 
 class IsProviderOrAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated and (request.user.role in [User.Role.PROVIDER, User.Role.ADMIN] or request.user.is_staff)
+
+class AIAssistantView(APIView):
+    """
+    Central AI Assistant endpoint.
+    
+    POST /api/ai/assistant/
+    
+    Request:
+    {
+        "user_input": "I need someone to teach Tamil near Adyar",
+        "session_id": "optional_session_id",
+        "context": {} optional context dict
+    }
+    
+    Response:
+    {
+        "intent": "SEARCH_SERVICE",
+        "action": "search_providers",
+        "message": "Looking for Tamil tutoring near Adyar...",
+        "confirmation_needed": false,
+        "extracted_data": {...},
+        "navigation_target": "optional_route",
+        "backend_action": {
+            "endpoint": "/api/ai/match/",
+            "method": "POST",
+            "payload": {...}
+        }
+    }
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        user_input = request.data.get('user_input', '').strip()
+        session_id = request.data.get('session_id')
+        
+        if not user_input:
+            return Response(
+                {'error': 'user_input is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Process input through assistant
+        result = assistant.process_user_input(
+            user_input=user_input,
+            user=request.user if request.user.is_authenticated else None,
+            session_id=session_id
+        )
+        
+        # Clean up response for frontend
+        response_data = {
+            'intent': result.get('intent'),
+            'action': result.get('action'),
+            'message': result.get('message'),
+            'confirmation_needed': result.get('confirmation_needed', False),
+            'extracted_data': result.get('extracted_data'),
+        }
+        
+        # Add navigation target if present
+        if result.get('navigation_target'):
+            response_data['navigation_target'] = result['navigation_target']
+        
+        # Add backend action if present (for frontend to call)
+        if result.get('action_on_confirm'):
+            response_data['backend_action'] = result['action_on_confirm']
+        
+        return Response(response_data, status=status.HTTP_200_OK)
 
 class AIHealthCheckView(APIView):
     permission_classes = [permissions.AllowAny]

@@ -101,6 +101,7 @@ export const aiGenerateDescription = (data) => api.post('/ai/generate-descriptio
 export const aiSuggestPrice = (data) => api.post('/ai/suggest-price/', data);
 export const aiBusinessAssistant = (question) => api.post('/ai/business-assistant/', { question });
 export const aiDetectScam = (message) => api.post('/ai/detect-scam/', { message });
+export const aiAssistant = (userInput, context, sessionId) => api.post('/ai/assistant/', { user_input: userInput, context, session_id: sessionId });
 
 // 7. Safety & Notifications
 export const getNotifications = () => api.get('/notifications/');
