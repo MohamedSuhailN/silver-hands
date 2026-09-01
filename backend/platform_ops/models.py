@@ -25,6 +25,7 @@ class OpportunityResponse(models.Model):
     opportunity = models.ForeignKey(Opportunity, on_delete=models.CASCADE, related_name='responses')
     provider = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='opportunity_responses')
     message = models.TextField(blank=True, default='')
+    proposed_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     status = models.CharField(max_length=50, default='RESPONDED') # RESPONDED, SAVED, DISMISSED
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -20,7 +20,7 @@ class OpportunityResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OpportunityResponse
-        fields = ['id', 'opportunity', 'provider', 'provider_name', 'message', 'status', 'created_at']
+        fields = ['id', 'opportunity', 'provider', 'provider_name', 'message', 'proposed_price', 'status', 'created_at']
         read_only_fields = ['id', 'provider', 'created_at']
 
 class NotificationSerializer(serializers.ModelSerializer):

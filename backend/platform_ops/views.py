@@ -34,8 +34,8 @@ class OpportunityViewSet(viewsets.ModelViewSet):
         resp = OpportunityResponse.objects.create(
             opportunity=opp,
             provider=request.user,
-            message=request.data.get('message', 'I am interested in this request!')
-            
+            message=request.data.get('message', 'I am interested in this request!'),
+            proposed_price=request.data.get('proposed_price')
         )
         return Response(OpportunityResponseSerializer(resp).data, status=status.HTTP_201_CREATED)
 

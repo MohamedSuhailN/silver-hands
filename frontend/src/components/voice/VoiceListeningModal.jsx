@@ -1,17 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mic, Square, X, Sparkles, Volume2 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const VoiceListeningModal = ({ isOpen, onClose, onVoiceCaptured, title = "Listening to Your Voice..." }) => {
   const [transcript, setTranscript] = useState('');
   const [isListening, setIsListening] = useState(false);
-
-  
   const [secondsRemaining, setSecondsRemaining] = useState(20);
   
+  const { language } = useLanguage();
   const recognitionRef = useRef(null);
   const timeoutRef = useRef(null);
   const countdownIntervalRef = useRef(null);
   const isListeningRef = useRef(false);
+  const stopFlagRef = useRef(false);
+
+  // Map language codes to speech recognition languages
+  const getRecognitionLanguage = (lang) => {
+    const langMap = {
+      'en': 'en-IN',
+      'ta': 'ta-IN',
+      'hi': 'hi-IN'
+    };
+    return langMap[lang] || 'en-IN';
+  };
 
   const resetSilenceTimer = () => {
     setSecondsRemaining(20);
@@ -35,67 +46,96 @@ export const VoiceListeningModal = ({ isOpen, onClose, onVoiceCaptured, title = 
   };
 
   const startListening = () => {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  if (!SpeechRecognition) {
-    alert("Speech Recognition not supported");
-    return;
-  }
+    if (!SpeechRecognition) {
+      alert("Speech Recognition not supported in this browser. Please type instead.");
+      return;
+    }
 
-  // Create only once
-  if (!recognitionRef.current) {
-    recognitionRef.current = new SpeechRecognition();
+    // Create only once
+    if (!recognitionRef.current) {
+      recognitionRef.current = new SpeechRecognition();
+      const recognitionLang = getRecognitionLanguage(language);
+      recognitionRef.current.lang = recognitionLang;
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
 
-    recognitionRef.current.lang = "en-IN";
-    recognitionRef.current.continuous = true;
-    recognitionRef.current.interimResults = true;
+      recognitionRef.current.onstart = () => {
+        stopFlagRef.current = false;
+        setIsListening(true);
+        resetSilenceTimer();
+      };
 
-    recognitionRef.current.onstart = () => {
-      setIsListening(true);
-      resetSilenceTimer();
-    };
+      recognitionRef.current.onresult = (event) => {
+        let text = "";
+        for (let i = 0; i < event.results.length; i++) {
+          text += event.results[i][0].transcript + " ";
+        }
+        setTranscript(text.trim());
+        resetSilenceTimer();
+      };
 
-    recognitionRef.current.onresult = (event) => {
-      let text = "";
-      for (let i = 0; i < event.results.length; i++) {
-        text += event.results[i][0].transcript + " ";
-      }
-      setTranscript(text.trim());
-      resetSilenceTimer();
-    };
+      recognitionRef.current.onerror = (e) => {
+        console.log('Speech recognition error:', e.error);
+        if (e.error === 'no-speech') {
+          // User didn't speak, restart
+          if (recognitionRef.current && !stopFlagRef.current) {
+            recognitionRef.current.start();
+          }
+        } else if (e.error === 'network') {
+          alert('Network error - please check your connection');
+          stopListening();
+        } else if (e.error === 'not-allowed') {
+          alert('Microphone permission denied. Please enable it in browser settings.');
+          stopListening();
+        }
+      };
 
-    recognitionRef.current.onerror = (e) => {
-      console.log(e.error);
-    };
+      recognitionRef.current.onend = () => {
+        // Only restart if modal is still open AND we haven't explicitly stopped
+        if (recognitionRef.current && isOpen && !stopFlagRef.current) {
+          try {
+            recognitionRef.current.start();
+          } catch (e) {
+            console.log('Failed to restart recognition:', e);
+          }
+        }
+      };
+    } else {
+      // If already created, just update language if it changed
+      const recognitionLang = getRecognitionLanguage(language);
+      recognitionRef.current.lang = recognitionLang;
+    }
 
-    recognitionRef.current.onend = () => {
-      // Restart only if modal is still open
-      if (recognitionRef.current && isOpen) {
-        recognitionRef.current.start();
-      }
-    };
-  }
-
-  recognitionRef.current.start();
-};
+    try {
+      recognitionRef.current.start();
+    } catch (e) {
+      console.log('Already started or error starting recognition');
+    }
+  };
 
   const stopListening = () => {
-  if (timeoutRef.current) clearTimeout(timeoutRef.current);
-  if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    stopFlagRef.current = true;
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
 
-  setIsListening(false);
+    setIsListening(false);
 
-  if (recognitionRef.current) {
-    recognitionRef.current.onend = null;
-    recognitionRef.current.stop();
-  }
-};
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {
+        console.log('Error stopping recognition:', e);
+      }
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
       setTranscript('');
-      
+      setSecondsRemaining(20);
       startListening();
     } else {
       stopListening();
@@ -104,7 +144,7 @@ export const VoiceListeningModal = ({ isOpen, onClose, onVoiceCaptured, title = 
     return () => {
       stopListening();
     };
-  }, [isOpen]);
+  }, [isOpen, language]);
 
   if (!isOpen) return null;
 

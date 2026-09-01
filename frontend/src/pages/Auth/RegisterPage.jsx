@@ -26,26 +26,36 @@ export const RegisterPage = () => {
     e.preventDefault();
     setLoading(true);
 
+    if (!formData.username || !formData.email || !formData.password) {
+      showToast("Username, email, and password are required", "error");
+      setLoading(false);
+      return;
+    }
+
     const payload = {
       username: formData.username,
       email: formData.email,
       password: formData.password,
-      full_name: `${formData.first_name} ${formData.last_name}`,
+      first_name: formData.first_name,
+      last_name: formData.last_name,
       phone: formData.phone,
-      
+      role: formData.role,
+      address: formData.address,
+      preferred_language: formData.preferred_language,
+      is_senior: formData.is_senior
     };
 
-  const result = await register(payload);
+    const result = await register(payload);
 
-  if (result.success) {
-    showToast("Registration successful! Welcome to SilverHands.", "success");
-    navigate("/");
-  } else {
-    showToast(result.error || "Registration failed", "error");
-  }
+    if (result.success) {
+      showToast("Registration successful! Welcome to SilverHands.", "success");
+      navigate("/");
+    } else {
+      showToast(result.error || "Registration failed", "error");
+    }
 
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   return (
     <div className="max-w-lg mx-auto my-12 p-8 card-surface shadow-warm-xl border border-warmgray-200">
