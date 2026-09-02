@@ -82,15 +82,15 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white w-full max-w-lg rounded-3xl shadow-warm-xl overflow-hidden border border-warmgray-200">
+      <div className="bg-white w-full max-w-lg rounded-3xl shadow-warm-xl overflow-hidden border border-[#DCEAF4]">
         
-        <div className="bg-cream-100 p-6 border-b border-warmgray-200 flex items-center justify-between">
+        <div className="bg-[#EAF5FC] p-6 border-b border-[#DCEAF4] flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-saffron">Request Service Booking</span>
-            <h3 className="font-heading text-xl font-bold text-warmgray-900">{service.title}</h3>
-            <p className="text-xs font-medium text-warmgray-600 mt-0.5">With {service.provider_name}</p>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#3F9BE8]">Request Service Booking</span>
+            <h3 className="font-heading text-xl font-bold text-[#163A5F]">{service.title}</h3>
+            <p className="text-xs font-medium text-[#64748B] mt-0.5">With {service.provider_name}</p>
           </div>
-          <button onClick={onClose} className="p-2 rounded-xl text-warmgray-500 hover:bg-cream-200">
+          <button onClick={onClose} className="p-2 rounded-xl text-[#64748B] hover:bg-white transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -99,17 +99,17 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
           
           {/* Fair & Authentic Price Intelligence Card */}
           {fairnessCheck && (
-            <div className="p-3.5 bg-sage-50/80 border border-sage-200 rounded-2xl space-y-1.5">
+            <div className="p-3.5 bg-[#F5F9FC] border border-[#DCEAF4] rounded-2xl space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-sage-dark flex items-center gap-1">
-                  <ShieldCheck className="w-4 h-4 text-sage" />
+                <span className="text-xs font-bold text-[#1F6FB2] flex items-center gap-1">
+                  <ShieldCheck className="w-4 h-4 text-[#3F9BE8]" />
                   {fairnessCheck.badge}
                 </span>
-                <span className="text-[10px] font-bold bg-white text-sage-dark px-2 py-0.5 rounded-full border border-sage/30">
+                <span className="text-[10px] font-bold bg-white text-[#1F6FB2] px-2 py-0.5 rounded-full border border-[#DCEAF4]">
                   {fairnessCheck.authenticity_rating}
                 </span>
               </div>
-              <p className="text-[11px] text-warmgray-600">
+              <p className="text-[11px] text-[#64748B]">
                 Fair market benchmark: <strong>₹{fairnessCheck.fair_range?.min} – ₹{fairnessCheck.fair_range?.max}</strong>. You are getting authentic elder artisan service at an honest price.
               </p>
             </div>
@@ -117,8 +117,8 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-warmgray-700 mb-1 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-saffron" /> Preferred Date
+              <label className="block text-xs font-bold text-[#1F2937] mb-1 flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5 text-[#3F9BE8]" /> Preferred Date
               </label>
               <input
                 type="text"
@@ -126,12 +126,12 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
                 onChange={(e) => setPreferredDate(e.target.value)}
                 placeholder="e.g. Tomorrow / Sunday"
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-warmgray-200 bg-cream-50 text-sm font-medium focus:ring-2 focus:ring-saffron"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#DCEAF4] bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#3F9BE8]"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-warmgray-700 mb-1 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-saffron" /> Preferred Time
+              <label className="block text-xs font-bold text-[#1F2937] mb-1 flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-[#3F9BE8]" /> Preferred Time
               </label>
               <input
                 type="text"
@@ -139,14 +139,14 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
                 onChange={(e) => setPreferredTime(e.target.value)}
                 placeholder="e.g. 10:00 AM / Evening"
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-warmgray-200 bg-cream-50 text-sm font-medium focus:ring-2 focus:ring-saffron"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#DCEAF4] bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#3F9BE8]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-warmgray-700 mb-1 flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-saffron" /> Service Location / Address
+            <label className="block text-xs font-bold text-[#1F2937] mb-1 flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-[#3F9BE8]" /> Service Location / Address
             </label>
             <input
               type="text"
@@ -154,12 +154,12 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
               onChange={(e) => setLocation(e.target.value)}
               placeholder="e.g. Flat 3B, Adyar, Chennai"
               required
-              className="w-full px-3.5 py-2.5 rounded-xl border border-warmgray-200 bg-cream-50 text-sm font-medium focus:ring-2 focus:ring-saffron"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#DCEAF4] bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#3F9BE8]"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-warmgray-700 mb-1">
+            <label className="block text-xs font-bold text-[#1F2937] mb-1">
               Special Instructions or Requirements
             </label>
             <textarea
@@ -167,7 +167,7 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
               value={message}
               onChange={handleMessageChange}
               placeholder="Mention dietary preferences, measurements, or class details..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-warmgray-200 bg-cream-50 text-sm font-medium focus:ring-2 focus:ring-saffron"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#DCEAF4] bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#3F9BE8]"
             />
           </div>
 
@@ -182,12 +182,12 @@ export const BookingModal = ({ service, isOpen, onClose, onSuccess }) => {
             </div>
           )}
 
-          <div className="bg-saffron-50 p-3.5 rounded-2xl flex items-center justify-between border border-saffron-200">
+          <div className="bg-[#EAF5FC] p-3.5 rounded-2xl flex items-center justify-between border border-[#3F9BE8]/30">
             <div>
-              <span className="text-xs font-semibold text-warmgray-600 block">Total Estimated Cost</span>
-              <span className="text-xl font-black text-saffron-dark">₹{Math.round(service.price)}</span>
+              <span className="text-xs font-semibold text-[#64748B] block">Total Estimated Cost</span>
+              <span className="text-xl font-black text-[#1F6FB2]">₹{Math.round(service.price)}</span>
             </div>
-            <span className="text-xs font-bold text-sage-dark bg-white px-2.5 py-1 rounded-full border border-sage/20">
+            <span className="text-xs font-bold text-[#1F6FB2] bg-white px-2.5 py-1 rounded-full border border-[#DCEAF4] shadow-sm">
               Pay after service
             </span>
           </div>

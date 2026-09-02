@@ -240,33 +240,33 @@ export const AIProfileWizard = () => {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div className="text-center space-y-2">
-        <span className="badge-tag bg-saffron text-white font-bold">
+        <span className="badge-tag bg-[#3F9BE8] text-white font-bold">
           <Sparkles className="w-3.5 h-3.5" /> AI Artisan & Marketplace Wizard
         </span>
-        <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-warmgray-900">
+        <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-[#163A5F]">
           Smart AI Toolkit for Artisans, Homemakers & Customers
         </h1>
-        <p className="text-sm text-warmgray-600 max-w-2xl mx-auto">
+        <p className="text-sm text-[#64748B] max-w-2xl mx-auto">
           Generate live service & product cards, consult the Growth Advisor, extract verified skills, and verify fair market pricing.
         </p>
       </div>
 
       {isCustomer && (
-        <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-between text-xs text-amber-900">
+        <div className="p-4 bg-[#EAF5FC] border border-[#DCEAF4] rounded-2xl flex items-center justify-between text-xs text-[#1F6FB2]">
           <div className="flex items-center gap-2">
-            <Lock className="w-4 h-4 text-amber-700 shrink-0" />
+            <Lock className="w-4 h-4 text-[#1F6FB2] shrink-0" />
             <span>You are logged in as a <strong>Customer</strong>. You can use the <strong>Fair Price Checker</strong> and <strong>Smart Recommendations</strong> below. Service/Product card creation is reserved for verified Providers.</span>
           </div>
         </div>
       )}
 
-      <div className="flex items-center gap-2 border-b border-warmgray-200 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-[#DCEAF4] pb-2 overflow-x-auto">
         {!isCustomer && (
           <>
             <button
               onClick={() => setActiveTab('service_card')}
               className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                activeTab === 'service_card' ? 'bg-saffron text-white shadow-warm' : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
+                activeTab === 'service_card' ? 'bg-[#3F9BE8] text-white shadow-warm' : 'bg-[#EAF5FC] text-[#1F6FB2] hover:bg-[#D5EBF9]'
               }`}
             >
               <Wand2 className="w-3.5 h-3.5" />
@@ -276,7 +276,7 @@ export const AIProfileWizard = () => {
             <button
               onClick={() => setActiveTab('product_card')}
               className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                activeTab === 'product_card' ? 'bg-sage text-white shadow-warm' : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
+                activeTab === 'product_card' ? 'bg-[#1F6FB2] text-white shadow-warm' : 'bg-[#EAF5FC] text-[#1F6FB2] hover:bg-[#D5EBF9]'
               }`}
             >
               <Package className="w-3.5 h-3.5" />
@@ -286,7 +286,7 @@ export const AIProfileWizard = () => {
             <button
               onClick={() => setActiveTab('growth_advisor')}
               className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                activeTab === 'growth_advisor' ? 'bg-purple-700 text-white shadow-warm' : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
+                activeTab === 'growth_advisor' ? 'bg-[#155A8A] text-white shadow-warm' : 'bg-[#EAF5FC] text-[#1F6FB2] hover:bg-[#D5EBF9]'
               }`}
             >
               <TrendingUp className="w-3.5 h-3.5" />
@@ -296,7 +296,7 @@ export const AIProfileWizard = () => {
             <button
               onClick={() => setActiveTab('skill_extractor')}
               className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                activeTab === 'skill_extractor' ? 'bg-blue-600 text-white shadow-warm' : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
+                activeTab === 'skill_extractor' ? 'bg-[#3F9BE8] text-white shadow-warm' : 'bg-[#EAF5FC] text-[#1F6FB2] hover:bg-[#D5EBF9]'
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -308,7 +308,7 @@ export const AIProfileWizard = () => {
         <button
           onClick={() => setActiveTab('fair_price')}
           className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-            activeTab === 'fair_price' ? 'bg-warmgray-900 text-white shadow-warm' : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
+            activeTab === 'fair_price' ? 'bg-[#163A5F] text-white shadow-warm' : 'bg-[#EAF5FC] text-[#1F6FB2] hover:bg-[#D5EBF9]'
           }`}
         >
           <Scale className="w-3.5 h-3.5" />
@@ -318,7 +318,7 @@ export const AIProfileWizard = () => {
         <button
           onClick={() => setActiveTab('recommendations')}
           className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-            activeTab === 'recommendations' ? 'bg-warmgray-900 text-white shadow-warm' : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
+            activeTab === 'recommendations' ? 'bg-[#163A5F] text-white shadow-warm' : 'bg-[#EAF5FC] text-[#1F6FB2] hover:bg-[#D5EBF9]'
           }`}
         >
           <Sparkles className="w-3.5 h-3.5" />
@@ -329,18 +329,18 @@ export const AIProfileWizard = () => {
       {/* 1. SERVICE CARD TAB */}
       {activeTab === 'service_card' && !isCustomer && (
         <div className="space-y-6">
-          <div className="card-surface p-6 sm:p-8 space-y-4 border border-saffron/30">
-            <h3 className="font-heading text-lg font-bold text-warmgray-900">
+          <div className="card-surface p-6 sm:p-8 space-y-4 border border-[#3F9BE8]/30 bg-white">
+            <h3 className="font-heading text-lg font-bold text-[#163A5F]">
               Describe Your Traditional Craft or Experience
             </h3>
             <div className="flex justify-between items-center pb-1">
-              <span className="text-xs font-bold text-warmgray-600">Your craft story or background:</span>
+              <span className="text-xs font-bold text-[#64748B]">Your craft story or background:</span>
               <button
                 type="button"
                 onClick={() => openVoicePopup('service', 'Speak Your Craft Experience & Background')}
-                className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-saffron-50 text-saffron-700 border border-saffron-200 hover:bg-saffron-100 shadow-sm"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-[#EAF5FC] text-[#1F6FB2] border border-[#3F9BE8]/30 hover:bg-[#3F9BE8] hover:text-white shadow-sm transition-all"
               >
-                <Mic className="w-3.5 h-3.5 text-saffron" />
+                <Mic className="w-3.5 h-3.5 text-[#3F9BE8]" />
                 <span>Voice Input</span>
               </button>
             </div>
@@ -349,7 +349,7 @@ export const AIProfileWizard = () => {
               value={inputStory}
               onChange={(e) => setInputStory(e.target.value)}
               placeholder="e.g. My name is Kamala. I have 25 years of experience cooking authentic Chettinad feasts, vegetarian lunches, and homemade spice powders in Chennai..."
-              className="w-full p-4 rounded-2xl border border-warmgray-300 bg-cream-50 text-sm font-medium focus:ring-2 focus:ring-saffron"
+              className="w-full p-4 rounded-2xl border border-[#DCEAF4] bg-white text-sm font-medium focus:ring-2 focus:ring-[#3F9BE8]"
             />
 
             <button
@@ -373,42 +373,42 @@ export const AIProfileWizard = () => {
                       setServiceData(pkg);
                     }}
                     className={`card-surface p-4 cursor-pointer border-2 ${
-                      selectedServiceIndex === idx ? 'border-saffron bg-saffron-50/20' : 'border-warmgray-200'
+                      selectedServiceIndex === idx ? 'border-[#3F9BE8] bg-[#EAF5FC]/30' : 'border-[#DCEAF4]'
                     }`}
                   >
-                    <span className="text-[11px] font-bold text-saffron uppercase block mb-1">{pkg.tier || `Option ${idx+1}`}</span>
-                    <h4 className="font-heading font-bold text-sm text-warmgray-900 line-clamp-2">{pkg.title}</h4>
-                    <p className="font-heading text-xl font-black text-saffron-dark mt-2">₹{Math.round(pkg.price)}</p>
+                    <span className="text-[11px] font-bold text-[#3F9BE8] uppercase block mb-1">{pkg.tier || `Option ${idx+1}`}</span>
+                    <h4 className="font-heading font-bold text-sm text-[#163A5F] line-clamp-2">{pkg.title}</h4>
+                    <p className="font-heading text-xl font-black text-[#1F6FB2] mt-2">₹{Math.round(pkg.price)}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-cream-100 p-4 rounded-2xl">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-[#F5F9FC] p-4 rounded-2xl border border-[#DCEAF4]">
                 <div>
-                  <label className="block text-[11px] font-bold text-warmgray-700 mb-1">Title</label>
+                  <label className="block text-[11px] font-bold text-[#64748B] mb-1">Title</label>
                   <input
                     type="text"
                     value={serviceData.title}
                     onChange={(e) => setServiceData({ ...serviceData, title: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-xl border border-warmgray-300 text-xs font-bold"
+                    className="w-full px-3 py-1.5 rounded-xl border border-[#DCEAF4] text-xs font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-warmgray-700 mb-1">Confirmed Price (₹)</label>
+                  <label className="block text-[11px] font-bold text-[#64748B] mb-1">Confirmed Price (₹)</label>
                   <input
                     type="number"
                     value={serviceData.price}
                     onChange={(e) => setServiceData({ ...serviceData, price: parseFloat(e.target.value) })}
-                    className="w-full px-3 py-1.5 rounded-xl border border-warmgray-300 text-xs font-bold text-saffron-dark"
+                    className="w-full px-3 py-1.5 rounded-xl border border-[#DCEAF4] text-xs font-bold text-[#1F6FB2]"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-warmgray-700 mb-1">Duration</label>
+                  <label className="block text-[11px] font-bold text-[#64748B] mb-1">Duration</label>
                   <input
                     type="text"
                     value={serviceData.duration}
                     onChange={(e) => setServiceData({ ...serviceData, duration: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-xl border border-warmgray-300 text-xs font-bold"
+                    className="w-full px-3 py-1.5 rounded-xl border border-[#DCEAF4] text-xs font-bold"
                   />
                 </div>
               </div>
@@ -431,17 +431,17 @@ export const AIProfileWizard = () => {
       {/* 2. PRODUCT CARD TAB */}
       {activeTab === 'product_card' && !isCustomer && (
         <div className="space-y-6">
-          <div className="card-surface p-6 sm:p-8 space-y-4 border border-sage-200">
+          <div className="card-surface p-6 sm:p-8 space-y-4 border border-[#DCEAF4] bg-white">
             <div className="flex justify-between items-center">
-              <h3 className="font-heading text-lg font-bold text-warmgray-900">
+              <h3 className="font-heading text-lg font-bold text-[#163A5F]">
                 Describe Your Handmade Delicacy (Speak or Type)
               </h3>
               <button
                 type="button"
                 onClick={() => openVoicePopup('product', 'Speak Your Handmade Product / Recipe Idea')}
-                className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-sage-50 text-sage-dark border border-sage-200 hover:bg-sage-100 shadow-sm"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-[#EAF5FC] text-[#1F6FB2] border border-[#3F9BE8]/30 hover:bg-[#3F9BE8] hover:text-white shadow-sm transition-all"
               >
-                <Mic className="w-3.5 h-3.5 text-sage" />
+                <Mic className="w-3.5 h-3.5 text-[#3F9BE8]" />
                 <span>Voice Input</span>
               </button>
             </div>
@@ -450,7 +450,7 @@ export const AIProfileWizard = () => {
               value={productIdea}
               onChange={(e) => setProductIdea(e.target.value)}
               placeholder="e.g. Traditional Sun-Dried Mango Pickle with gingelly oil and fenugreek, 500g glass jar..."
-              className="w-full p-4 rounded-2xl border border-warmgray-300 bg-cream-50 text-sm font-medium"
+              className="w-full p-4 rounded-2xl border border-[#DCEAF4] bg-white text-sm font-medium"
             />
             <button
               onClick={handleGenerateProduct}
@@ -463,17 +463,17 @@ export const AIProfileWizard = () => {
           </div>
 
           {productData && (
-            <div className="card-surface p-6 space-y-4 border-2 border-sage animate-fade-in">
+            <div className="card-surface p-6 space-y-4 border-2 border-[#1F6FB2] animate-fade-in bg-white">
               <div className="flex justify-between items-start">
                 <div>
-                  <span className="badge-tag bg-sage text-white font-bold">{productData.category_slug}</span>
-                  <h3 className="font-heading text-xl font-bold text-warmgray-900 mt-1">{productData.title}</h3>
-                  <p className="text-xs text-warmgray-600 mt-1">{productData.description}</p>
+                  <span className="badge-tag bg-[#EAF5FC] text-[#1F6FB2] font-bold">{productData.category_slug}</span>
+                  <h3 className="font-heading text-xl font-bold text-[#163A5F] mt-1">{productData.title}</h3>
+                  <p className="text-xs text-[#64748B] mt-1">{productData.description}</p>
                 </div>
-                <span className="font-heading text-3xl font-black text-sage-dark">₹{Math.round(productData.price)}</span>
+                <span className="font-heading text-3xl font-black text-[#1F6FB2]">₹{Math.round(productData.price)}</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 text-xs bg-cream-50 p-3 rounded-xl">
+              <div className="grid grid-cols-2 gap-3 text-xs bg-[#F5F9FC] p-3 rounded-xl border border-[#DCEAF4]">
                 <div><strong>Shelf Life:</strong> {productData.shelf_life || '60 days'}</div>
                 <div><strong>Stock:</strong> {productData.quantity || 10} units</div>
               </div>
@@ -493,22 +493,22 @@ export const AIProfileWizard = () => {
 
       {/* 3. GROWTH ADVISOR TAB */}
       {activeTab === 'growth_advisor' && !isCustomer && (
-        <div className="card-surface p-6 space-y-4 border border-purple-200">
-          <div className="flex items-center gap-2 pb-2 border-b border-warmgray-100">
-            <TrendingUp className="w-5 h-5 text-purple-600" />
-            <h3 className="font-heading text-lg font-bold text-warmgray-900">
+        <div className="card-surface p-6 space-y-4 border border-[#DCEAF4] bg-white">
+          <div className="flex items-center gap-2 pb-2 border-b border-[#E8F1F7]">
+            <TrendingUp className="w-5 h-5 text-[#1F6FB2]" />
+            <h3 className="font-heading text-lg font-bold text-[#163A5F]">
               Artisan & Homemaker Growth Advisor
             </h3>
           </div>
 
-          <div className="space-y-3 max-h-96 overflow-y-auto p-3 bg-cream-50 rounded-2xl border border-warmgray-200">
+          <div className="space-y-3 max-h-96 overflow-y-auto p-3 bg-[#F5F9FC] rounded-2xl border border-[#DCEAF4]">
             {advisorHistory.map((msg, i) => (
               <div
                 key={i}
                 className={`p-3.5 rounded-2xl text-xs max-w-lg leading-relaxed ${
                   msg.sender === 'user'
-                    ? 'ml-auto bg-purple-700 text-white font-medium'
-                    : 'mr-auto bg-white text-warmgray-800 border border-warmgray-200 shadow-sm'
+                    ? 'ml-auto bg-[#1F6FB2] text-white font-medium'
+                    : 'mr-auto bg-white text-[#1F2937] border border-[#DCEAF4] shadow-sm'
                 }`}
               >
                 {msg.text}
@@ -523,12 +523,12 @@ export const AIProfileWizard = () => {
                 value={advisorQuestion}
                 onChange={(e) => setAdvisorQuestion(e.target.value)}
                 placeholder="Ask about pricing, packaging, festive orders..."
-                className="w-full px-4 py-2.5 pr-10 rounded-xl border border-warmgray-300 text-xs bg-cream-50 font-medium"
+                className="w-full px-4 py-2.5 pr-10 rounded-xl border border-[#DCEAF4] text-xs bg-white font-medium"
               />
               <button
                 type="button"
                 onClick={() => openVoicePopup('advisor', 'Speak Your Growth & Business Question')}
-                className="absolute right-2 top-2 p-1 rounded-lg text-warmgray-400 hover:text-purple-600"
+                className="absolute right-2 top-2 p-1 rounded-lg text-[#64748B] hover:text-[#3F9BE8]"
                 title="Speak question"
               >
                 <Mic className="w-4 h-4" />
@@ -537,7 +537,7 @@ export const AIProfileWizard = () => {
             <button
               type="submit"
               disabled={askingAdvisor}
-              className="px-5 py-2.5 rounded-xl bg-purple-700 text-white font-bold text-xs hover:bg-purple-800 flex items-center gap-1"
+              className="btn-secondary !px-5 flex items-center gap-1"
             >
               <Send className="w-3.5 h-3.5" />
               Ask
@@ -548,17 +548,17 @@ export const AIProfileWizard = () => {
 
       {/* 4. SKILL EXTRACTOR TAB */}
       {activeTab === 'skill_extractor' && !isCustomer && (
-        <div className="card-surface p-6 space-y-4 border border-blue-200">
+        <div className="card-surface p-6 space-y-4 border border-[#DCEAF4] bg-white">
           <div className="flex justify-between items-center">
-            <h3 className="font-heading text-lg font-bold text-warmgray-900">
+            <h3 className="font-heading text-lg font-bold text-[#163A5F]">
               AI Skill Extraction & Skill Passport Formulator
             </h3>
             <button
               type="button"
               onClick={() => openVoicePopup('skill', 'Speak Your Skills & Experience')}
-              className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 shadow-sm"
+              className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-[#EAF5FC] text-[#1F6FB2] border border-[#3F9BE8]/30 hover:bg-[#3F9BE8] hover:text-white shadow-sm transition-all"
             >
-              <Mic className="w-3.5 h-3.5 text-blue-600" />
+              <Mic className="w-3.5 h-3.5 text-[#3F9BE8]" />
               <span>Voice Input</span>
             </button>
           </div>
@@ -567,7 +567,7 @@ export const AIProfileWizard = () => {
             value={skillInputText}
             onChange={(e) => setSkillInputText(e.target.value)}
             placeholder="Paste your past experience, recipes, or vocational background..."
-            className="w-full p-4 rounded-2xl border border-warmgray-300 bg-cream-50 text-xs font-medium"
+            className="w-full p-4 rounded-2xl border border-[#DCEAF4] bg-white text-xs font-medium"
           />
           <button
             onClick={handleExtractSkills}
@@ -578,11 +578,11 @@ export const AIProfileWizard = () => {
           </button>
 
           {extractedSkillResult && (
-            <div className="p-4 bg-cream-50 rounded-2xl border border-warmgray-200 space-y-3">
-              <h4 className="font-bold text-xs text-warmgray-900">Detected Practical Skills:</h4>
+            <div className="p-4 bg-[#F5F9FC] rounded-2xl border border-[#DCEAF4] space-y-3">
+              <h4 className="font-bold text-xs text-[#163A5F]">Detected Practical Skills:</h4>
               <div className="flex flex-wrap gap-2">
                 {(extractedSkillResult.skills || extractedSkillResult.primary_skills || ['Culinary Arts', 'Traditional Craft']).map((s, i) => (
-                  <span key={i} className="badge-tag bg-white text-blue-800 border border-blue-200 font-bold">
+                  <span key={i} className="badge-tag bg-white text-[#1F6FB2] border border-[#DCEAF4] font-bold">
                     ★ {s}
                   </span>
                 ))}
@@ -595,21 +595,21 @@ export const AIProfileWizard = () => {
 
       {/* 5. FAIR PRICE CHECKER TAB (Common) */}
       {activeTab === 'fair_price' && (
-        <div className="card-surface p-6 sm:p-8 space-y-6 border border-warmgray-300">
+        <div className="card-surface p-6 sm:p-8 space-y-6 border border-[#DCEAF4] bg-white">
           <div>
-            <span className="badge-tag bg-sage-50 text-sage-dark font-bold mb-1">Marketplace Transparency</span>
-            <h3 className="font-heading text-2xl font-bold text-warmgray-900">
+            <span className="badge-tag bg-[#EAF5FC] text-[#1F6FB2] font-bold mb-1">Marketplace Transparency</span>
+            <h3 className="font-heading text-2xl font-bold text-[#163A5F]">
               Fair Price & Authenticity Evaluator
             </h3>
-            <p className="text-xs text-warmgray-500 mt-1">
+            <p className="text-xs text-[#64748B] mt-1">
               Enter any service or handmade product quote to check if it meets verified artisan fair pricing standards.
             </p>
           </div>
 
           {(myHistoryBookings.length > 0 || myHistoryOrders.length > 0) && (
-            <div className="p-4 bg-cream-100 rounded-2xl border border-warmgray-200 space-y-3">
-              <span className="text-xs font-bold text-warmgray-800 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-saffron" />
+            <div className="p-4 bg-[#F5F9FC] rounded-2xl border border-[#DCEAF4] space-y-3">
+              <span className="text-xs font-bold text-[#163A5F] flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#3F9BE8]" />
                 Analyze One of Your Recent Placed Bookings or Orders:
               </span>
               <div className="flex flex-wrap gap-2">
@@ -622,9 +622,9 @@ export const AIProfileWizard = () => {
                       setFairCheckPrice(b.total_price);
                       setFairCheckLocation(b.location || 'Chennai');
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-white text-xs font-bold text-warmgray-800 border border-warmgray-300 hover:border-saffron flex items-center gap-1 shadow-sm"
+                    className="px-3 py-1.5 rounded-xl bg-white text-xs font-bold text-[#1F2937] border border-[#DCEAF4] hover:border-[#3F9BE8] flex items-center gap-1 shadow-sm transition-colors"
                   >
-                    <Calendar className="w-3 h-3 text-saffron" />
+                    <Calendar className="w-3 h-3 text-[#3F9BE8]" />
                     <span>{b.service_title} (₹{Math.round(b.total_price)})</span>
                   </button>
                 ))}
@@ -636,9 +636,9 @@ export const AIProfileWizard = () => {
                       setFairCheckItem(o.product_title);
                       setFairCheckPrice(o.total_price);
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-white text-xs font-bold text-warmgray-800 border border-warmgray-300 hover:border-sage flex items-center gap-1 shadow-sm"
+                    className="px-3 py-1.5 rounded-xl bg-white text-xs font-bold text-[#1F2937] border border-[#DCEAF4] hover:border-[#1F6FB2] flex items-center gap-1 shadow-sm transition-colors"
                   >
-                    <ShoppingCart className="w-3 h-3 text-sage" />
+                    <ShoppingCart className="w-3 h-3 text-[#1F6FB2]" />
                     <span>{o.product_title} (₹{Math.round(o.total_price)})</span>
                   </button>
                 ))}
@@ -649,11 +649,11 @@ export const AIProfileWizard = () => {
           <form onSubmit={handleCheckFairPrice} className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="block text-xs font-bold text-warmgray-700">Item / Service Name</label>
+                <label className="block text-xs font-bold text-[#1F2937]">Item / Service Name</label>
                 <button
                   type="button"
                   onClick={() => openVoicePopup('fair_item', 'Speak Item or Service Name')}
-                  className="text-[10px] font-bold flex items-center gap-0.5 text-sage-dark hover:underline"
+                  className="text-[10px] font-bold flex items-center gap-0.5 text-[#1F6FB2] hover:underline"
                 >
                   <Mic className="w-3 h-3" /> Voice
                 </button>
@@ -664,28 +664,28 @@ export const AIProfileWizard = () => {
                 onChange={(e) => setFairCheckItem(e.target.value)}
                 placeholder="e.g. Traditional Lunch Preparation (2 hours)"
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-warmgray-300 bg-cream-50 text-xs font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#DCEAF4] bg-white text-xs font-medium"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-warmgray-700 mb-1">Quoted Price (₹)</label>
+              <label className="block text-xs font-bold text-[#1F2937] mb-1">Quoted Price (₹)</label>
               <input
                 type="number"
                 value={fairCheckPrice}
                 onChange={(e) => setFairCheckPrice(e.target.value)}
                 placeholder="e.g. 800"
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-warmgray-300 bg-cream-50 text-xs font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#DCEAF4] bg-white text-xs font-medium"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-warmgray-700 mb-1">City / Area</label>
+              <label className="block text-xs font-bold text-[#1F2937] mb-1">City / Area</label>
               <input
                 type="text"
                 value={fairCheckLocation}
                 onChange={(e) => setFairCheckLocation(e.target.value)}
                 placeholder="Chennai"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-warmgray-300 bg-cream-50 text-xs font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#DCEAF4] bg-white text-xs font-medium"
               />
             </div>
 
@@ -702,28 +702,28 @@ export const AIProfileWizard = () => {
           </form>
 
           {fairPriceResult && (
-            <div className="p-5 bg-gradient-to-r from-cream-50 via-white to-sage-50 rounded-2xl border border-sage-200 space-y-4 animate-fade-in">
+            <div className="p-5 bg-[#F5F9FC] rounded-2xl border border-[#DCEAF4] space-y-4 animate-fade-in">
               <div className="flex justify-between items-center">
-                <span className="badge-tag bg-sage text-white font-bold">{fairPriceResult.badge}</span>
-                <span className="text-xs font-bold text-sage-dark">{fairPriceResult.authenticity_rating}</span>
+                <span className="badge-tag bg-[#3F9BE8] text-white font-bold">{fairPriceResult.badge}</span>
+                <span className="text-xs font-bold text-[#1F6FB2]">{fairPriceResult.authenticity_rating}</span>
               </div>
 
               <div className="grid grid-cols-3 gap-3 text-center">
-                <div className="p-3 bg-white rounded-xl border border-warmgray-200">
-                  <span className="text-[10px] text-warmgray-500 font-bold block">Min Market Fair Price</span>
-                  <span className="font-heading text-base font-bold text-warmgray-700">₹{fairPriceResult.fair_range?.min}</span>
+                <div className="p-3 bg-white rounded-xl border border-[#DCEAF4]">
+                  <span className="text-[10px] text-[#64748B] font-bold block">Min Market Fair Price</span>
+                  <span className="font-heading text-base font-bold text-[#1F2937]">₹{fairPriceResult.fair_range?.min}</span>
                 </div>
-                <div className="p-3 bg-sage-50 rounded-xl border-2 border-sage">
-                  <span className="text-[10px] text-sage-dark font-bold block">Recommended Honest Wage</span>
-                  <span className="font-heading text-lg font-black text-sage-dark">₹{fairPriceResult.fair_range?.recommended}</span>
+                <div className="p-3 bg-[#EAF5FC] rounded-xl border-2 border-[#3F9BE8]">
+                  <span className="text-[10px] text-[#1F6FB2] font-bold block">Recommended Honest Wage</span>
+                  <span className="font-heading text-lg font-black text-[#1F6FB2]">₹{fairPriceResult.fair_range?.recommended}</span>
                 </div>
-                <div className="p-3 bg-white rounded-xl border border-warmgray-200">
-                  <span className="text-[10px] text-warmgray-500 font-bold block">Maximum Fair Price</span>
-                  <span className="font-heading text-base font-bold text-warmgray-700">₹{fairPriceResult.fair_range?.max}</span>
+                <div className="p-3 bg-white rounded-xl border border-[#DCEAF4]">
+                  <span className="text-[10px] text-[#64748B] font-bold block">Maximum Fair Price</span>
+                  <span className="font-heading text-base font-bold text-[#1F2937]">₹{fairPriceResult.fair_range?.max}</span>
                 </div>
               </div>
 
-              <p className="text-xs text-warmgray-700 leading-relaxed bg-white p-3 rounded-xl border border-warmgray-100">
+              <p className="text-xs text-[#1F2937] leading-relaxed bg-white p-3 rounded-xl border border-[#DCEAF4]">
                 {fairPriceResult.explanation}
               </p>
             </div>
@@ -735,25 +735,25 @@ export const AIProfileWizard = () => {
       {activeTab === 'recommendations' && (
         <div className="space-y-6">
           <div>
-            <h3 className="font-heading text-2xl font-bold text-warmgray-900">Curated Verified Recommendations</h3>
-            <p className="text-xs text-warmgray-500">Handpicked top-rated traditional services and homemade goods.</p>
+            <h3 className="font-heading text-2xl font-bold text-[#163A5F]">Curated Verified Recommendations</h3>
+            <p className="text-xs text-[#64748B]">Handpicked top-rated traditional services and homemade goods.</p>
           </div>
 
           {loadingRecs ? (
-            <div className="text-center py-10 font-bold text-saffron">Loading curated recommendations...</div>
+            <div className="text-center py-10 font-bold text-[#3F9BE8]">Loading curated recommendations...</div>
           ) : (
             <div className="space-y-6">
               <div>
-                <h4 className="font-heading text-base font-bold text-warmgray-900 mb-3">Top Verified Services</h4>
+                <h4 className="font-heading text-base font-bold text-[#163A5F] mb-3">Top Verified Services</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {(recommendations?.recommended_services || []).map((s) => (
-                    <div key={s.id} className="card-surface p-4 space-y-2">
-                      <span className="badge-tag bg-saffron-50 text-saffron-dark">{s.category_name}</span>
-                      <h5 className="font-bold text-sm text-warmgray-900">{s.title}</h5>
-                      <p className="text-xs text-warmgray-500">By {s.provider_name}</p>
-                      <div className="flex justify-between items-center pt-2 border-t border-warmgray-100">
-                        <span className="font-bold text-sm text-saffron-dark">₹{Math.round(s.price)}</span>
-                        <Link to={`/services/${s.id}`} className="text-xs font-bold text-warmgray-700 hover:text-saffron">
+                    <div key={s.id} className="card-surface p-4 space-y-2 bg-white">
+                      <span className="badge-tag bg-[#EAF5FC] text-[#1F6FB2]">{s.category_name}</span>
+                      <h5 className="font-bold text-sm text-[#163A5F]">{s.title}</h5>
+                      <p className="text-xs text-[#64748B]">By {s.provider_name}</p>
+                      <div className="flex justify-between items-center pt-2 border-t border-[#E8F1F7]">
+                        <span className="font-bold text-sm text-[#1F6FB2]">₹{Math.round(s.price)}</span>
+                        <Link to={`/services/${s.id}`} className="text-xs font-bold text-[#1F6FB2] hover:text-[#3F9BE8]">
                           Book →
                         </Link>
                       </div>
@@ -762,17 +762,17 @@ export const AIProfileWizard = () => {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-warmgray-200">
-                <h4 className="font-heading text-base font-bold text-warmgray-900 mb-3">Handmade Marketplace Delicacies</h4>
+              <div className="pt-4 border-t border-[#DCEAF4]">
+                <h4 className="font-heading text-base font-bold text-[#163A5F] mb-3">Handmade Marketplace Delicacies</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {(recommendations?.recommended_products || []).map((p) => (
-                    <div key={p.id} className="card-surface p-4 space-y-2">
-                      <span className="badge-tag bg-sage-50 text-sage-dark">{p.category_name}</span>
-                      <h5 className="font-bold text-sm text-warmgray-900">{p.title}</h5>
-                      <p className="text-xs text-warmgray-500">By {p.provider_name}</p>
-                      <div className="flex justify-between items-center pt-2 border-t border-warmgray-100">
-                        <span className="font-bold text-sm text-sage-dark">₹{Math.round(p.price)}</span>
-                        <Link to={`/products/${p.id}`} className="text-xs font-bold text-warmgray-700 hover:text-sage">
+                    <div key={p.id} className="card-surface p-4 space-y-2 bg-white">
+                      <span className="badge-tag bg-[#EAF5FC] text-[#1F6FB2]">{p.category_name}</span>
+                      <h5 className="font-bold text-sm text-[#163A5F]">{p.title}</h5>
+                      <p className="text-xs text-[#64748B]">By {p.provider_name}</p>
+                      <div className="flex justify-between items-center pt-2 border-t border-[#E8F1F7]">
+                        <span className="font-bold text-sm text-[#1F6FB2]">₹{Math.round(p.price)}</span>
+                        <Link to={`/products/${p.id}`} className="text-xs font-bold text-[#1F6FB2] hover:text-[#3F9BE8]">
                           Order →
                         </Link>
                       </div>

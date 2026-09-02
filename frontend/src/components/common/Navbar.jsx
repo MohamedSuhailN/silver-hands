@@ -4,9 +4,11 @@ import { useAuth } from '../../context/AuthContext';
 import { useSeniorMode } from '../../context/SeniorModeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { BrandLogo } from './BrandLogo';
 import { 
   Sparkles, Mic, Eye, Globe, Bell, User, ShoppingBag, 
-  Wand2, Compass, Menu, X, ShieldAlert, LogOut, LayoutDashboard, Utensils, Calendar, MessageSquare, Award
+  Wand2, Compass, Menu, X, ShieldAlert, LogOut, LayoutDashboard, 
+  Utensils, Calendar, MessageSquare, Award, Scissors, Package, UserCircle, BookOpen
 } from 'lucide-react';
 
 export const Navbar = ({ onOpenVoice }) => {
@@ -49,15 +51,13 @@ export const Navbar = ({ onOpenVoice }) => {
           
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-saffron to-saffron-light flex items-center justify-center text-white text-2xl shadow-warm group-hover:scale-105 transition-transform">
-                👵🏽
-              </div>
+            <Link to="/" className="flex items-center gap-3 group">
+              <BrandLogo size="md" />
               <div>
-                <span className="font-heading text-xl sm:text-2xl font-black text-warmgray-900 tracking-tight flex items-center gap-1.5">
-                  Silver<span className="text-saffron">Hands</span>
+                <span className="font-heading text-xl sm:text-2xl font-black text-[#333333] tracking-tight flex items-center gap-1">
+                  Silver<span className="text-[#3F9BE8]">Hands</span>
                 </span>
-                <span className="text-[9px] sm:text-[10px] font-bold text-sage-dark block tracking-widest uppercase -mt-1">
+                <span className="text-[10px] sm:text-[11px] font-extrabold text-[#1F6FB2] block tracking-widest uppercase -mt-1">
                   Elder Livelihoods
                 </span>
               </div>
@@ -70,30 +70,32 @@ export const Navbar = ({ onOpenVoice }) => {
               to="/services"
               className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
                 isActive('/services')
-                  ? 'bg-saffron text-white shadow-warm'
-                  : 'text-warmgray-700 hover:text-saffron hover:bg-cream-100'
+                  ? 'bg-[#3F9BE8] text-white shadow-warm'
+                  : 'text-[#1F2937] hover:text-[#3F9BE8] hover:bg-[#EAF5FC]'
               }`}
             >
-                  <span>🧹 {t('nav.services')}</span>
+              <Scissors className="w-4 h-4" />
+              <span>{t('nav.services')}</span>
             </Link>
 
             <Link
               to="/products"
               className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
                 isActive('/products')
-                  ? 'bg-sage text-white shadow-warm'
-                  : 'text-warmgray-700 hover:text-sage-dark hover:bg-cream-100'
+                  ? 'bg-[#3F9BE8] text-white shadow-warm'
+                  : 'text-[#1F2937] hover:text-[#3F9BE8] hover:bg-[#EAF5FC]'
               }`}
             >
-                  <span>🛍️ {t('ui.Marketplace')}</span>
+              <ShoppingBag className="w-4 h-4" />
+              <span>{t('ui.Marketplace')}</span>
             </Link>
 
             <Link
               to="/providers"
               className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                 isActive('/providers')
-                  ? 'bg-warmgray-900 text-white shadow-warm'
-                  : 'text-warmgray-700 hover:text-warmgray-900 hover:bg-cream-100'
+                  ? 'bg-[#1F6FB2] text-white shadow-warm'
+                  : 'text-[#1F2937] hover:text-[#3F9BE8] hover:bg-[#EAF5FC]'
               }`}
             >
               Artisans & Homemakers
@@ -106,20 +108,20 @@ export const Navbar = ({ onOpenVoice }) => {
             {/* Voice Assistant Button */}
             <button
               onClick={onOpenVoice}
-              className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl bg-saffron-50 text-saffron-700 border border-saffron-200 hover:bg-saffron-100 font-bold text-xs shadow-warm-sm transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-[#1F6FB2] border border-[#DCEAF4] hover:bg-[#3F9BE8] hover:text-white hover:border-[#3F9BE8] font-bold text-xs shadow-sm transition-all"
               title={t('ui.Voice Assistant')}
             >
-              <Mic className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-saffron" />
+              <Mic className="w-4 h-4 text-[#3F9BE8]" />
               <span className="hidden sm:inline">{t('ui.Voice')}</span>
             </button>
 
             {/* Senior / Accessibility Mode Toggle */}
             <button
               onClick={toggleSeniorMode}
-              className={`flex items-center gap-1 px-2.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all border shadow-sm ${
                 isSeniorMode
-                  ? 'bg-warmgray-900 text-white shadow-warm'
-                  : 'bg-cream-200 text-warmgray-700 hover:bg-cream-300'
+                  ? 'bg-[#1F6FB2] text-white border-[#1F6FB2]'
+                  : 'bg-white text-[#1F6FB2] border-[#DCEAF4] hover:bg-[#3F9BE8] hover:text-white hover:border-[#3F9BE8]'
               }`}
               title={t('ui.Toggle Senior Mode')}
             >
@@ -131,7 +133,7 @@ export const Navbar = ({ onOpenVoice }) => {
             <select
               value={language}
               onChange={(e) => changeLanguage(e.target.value)}
-              className="bg-cream-100 border border-warmgray-200 rounded-xl px-2 py-1.5 text-xs font-bold text-warmgray-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-saffron"
+              className="bg-white border border-[#DCEAF4] rounded-xl px-3 py-2 text-xs font-bold text-[#1F6FB2] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3F9BE8] shadow-sm hover:border-[#3F9BE8] transition-all"
             >
               <option value="en">EN</option>
               <option value="ta">தமிழ்</option>
@@ -170,26 +172,32 @@ export const Navbar = ({ onOpenVoice }) => {
                         </Link>
                       )}
                       {isProvider && (
-                        <Link to="/provider/dashboard" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-bold text-warmgray-900 bg-cream-100 hover:bg-cream-200">
-                          👩🏽‍🍳 {t('nav.dashboard')} (Operations)
+                        <Link to="/provider/dashboard" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-bold text-warmgray-900 bg-cream-100 hover:bg-cream-200 flex items-center gap-1.5">
+                          <LayoutDashboard className="w-3.5 h-3.5 text-saffron" />
+                          {t('nav.dashboard')} (Operations)
                         </Link>
                       )}
-                      <Link to="/profile" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100">
-                        👤 {t('ui.Profile & Statistics')}
+                      <Link to="/profile" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100 flex items-center gap-1.5">
+                        <UserCircle className="w-3.5 h-3.5 text-warmgray-500" />
+                        {t('ui.Profile & Statistics')}
                       </Link>
                       {isProvider && (
-                        <Link to="/skill-passport" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100">
-                          📜 {t('ui.Skill Passport')}
+                        <Link to="/skill-passport" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100 flex items-center gap-1.5">
+                          <Award className="w-3.5 h-3.5 text-warmgray-500" />
+                          {t('ui.Skill Passport')}
                         </Link>
                       )}
-                      <Link to="/bookings" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100">
-                        📅 {t('nav.myBookings')}
+                      <Link to="/bookings" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-warmgray-500" />
+                        {t('nav.myBookings')}
                       </Link>
-                      <Link to="/orders" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100">
-                        📦 {t('nav.myOrders')}
+                      <Link to="/orders" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100 flex items-center gap-1.5">
+                        <Package className="w-3.5 h-3.5 text-warmgray-500" />
+                        {t('nav.myOrders')}
                       </Link>
-                      <Link to="/messages" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100">
-                        💬 {t('nav.messages')}
+                      <Link to="/messages" onClick={() => setUserDropdownOpen(false)} className="block px-4 py-2 text-xs font-medium text-warmgray-700 hover:bg-cream-100 flex items-center gap-1.5">
+                        <MessageSquare className="w-3.5 h-3.5 text-warmgray-500" />
+                        {t('nav.messages')}
                       </Link>
                     </div>
 
@@ -233,7 +241,7 @@ export const Navbar = ({ onOpenVoice }) => {
       </div>
 
       {/* 2. Secondary Sub-Navbar Row (Clean feature bar below main navbar) */}
-      <div className="bg-cream-100/90 border-t border-warmgray-200/80 py-1.5 px-4 sm:px-6 lg:px-8">
+      <div className="bg-[#EAF5FC] border-t border-[#DCEAF4] py-1.5 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto gap-2 text-xs">
           
           {/* Left Feature Pills */}
@@ -255,11 +263,11 @@ export const Navbar = ({ onOpenVoice }) => {
               to="/ai-match"
               className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 ${
                 isActive('/ai-match')
-                  ? 'bg-saffron text-white shadow-warm-sm'
-                  : 'bg-white text-saffron-dark hover:bg-saffron/10 border border-warmgray-200'
+                  ? 'bg-[#3F9BE8] text-white shadow-warm-sm'
+                  : 'bg-white text-[#1F6FB2] hover:bg-[#EAF5FC] border border-[#E5E5E5]'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-saffron shrink-0" />
+              <Sparkles className="w-3.5 h-3.5 text-[#3F9BE8] shrink-0" />
               <span>{t('nav.aiMatch')}</span>
             </Link>
 
@@ -280,11 +288,11 @@ export const Navbar = ({ onOpenVoice }) => {
                 to="/provider/dashboard"
                 className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 ${
                   isActive('/provider/dashboard')
-                    ? 'bg-amber-600 text-white shadow-warm-sm'
-                    : 'bg-amber-50 text-amber-900 hover:bg-amber-100 border border-amber-200'
+                    ? 'bg-[#1F6FB2] text-white shadow-warm-sm'
+                    : 'bg-[#EAF5FC] text-[#1F6FB2] hover:bg-[#D5EBF9] border border-[#3F9BE8]/30'
                 }`}
               >
-                <LayoutDashboard className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                <LayoutDashboard className="w-3.5 h-3.5 text-[#1F6FB2] shrink-0" />
                 <span>{t('nav.dashboard')}</span>
               </Link>
             )}

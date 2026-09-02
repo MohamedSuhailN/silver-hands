@@ -48,6 +48,7 @@ export const ServiceDetailPage = () => {
               src={service.image_url || 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80'}
               alt={service.title}
               className="w-full h-80 object-cover"
+              onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80'; }}
             />
             <div className="p-8">
               <div className="flex items-center justify-between">

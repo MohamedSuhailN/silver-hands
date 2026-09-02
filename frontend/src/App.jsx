@@ -32,7 +32,7 @@ export const App = () => {
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-ivory">
+    <div className="min-h-screen flex flex-col justify-between bg-white">
       <div>
         <Navbar onOpenVoice={() => setIsVoiceOpen(true)} />
         

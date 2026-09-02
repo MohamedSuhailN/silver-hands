@@ -134,10 +134,10 @@ export const ProfilePage = () => {
     <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
       
       {/* Top Banner Profile Summary */}
-      <div className="card-surface p-8 bg-gradient-to-r from-cream-100 via-white to-amber-50/50 border border-warmgray-200 shadow-warm">
+      <div className="card-surface p-8 bg-white border border-warmgray-200 shadow-warm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
-            <div className="w-20 h-20 rounded-3xl bg-saffron text-white flex items-center justify-center font-bold text-3xl shadow-warm">
+            <div className="w-20 h-20 rounded-3xl bg-[#3F9BE8] text-white flex items-center justify-center font-bold text-3xl shadow-warm">
               {user?.first_name?.[0] || user?.username?.[0]?.toUpperCase()}
             </div>
             <div>

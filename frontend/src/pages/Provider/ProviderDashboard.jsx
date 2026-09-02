@@ -3,14 +3,17 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
   getBookings, getOrders, getProfile, getServices, getProducts, 
-  getProviderMe, updateBookingStatus, updateOrderStatus 
+  getProviderMe, updateBookingStatus, updateOrderStatus, getProviderReviewIntelligence,
+  getProviderAnalytics, respondOpportunity 
 } from '../../api/client';
 import { CreateServiceModal } from './CreateServiceModal';
 import { CreateProductModal } from './CreateProductModal';
 import { useNotifications } from '../../context/NotificationContext';
 import { 
   Plus, ShoppingBag, Calendar, CheckCircle2, Clock, 
-  Sparkles, Wand2, ArrowRight, Check, X, RefreshCw, UserCheck, Package, Award, Settings, User
+  Sparkles, Wand2, ArrowRight, Check, X, RefreshCw, UserCheck, Package, Award, Settings, User,
+  Star, MessageSquare, TrendingUp, Lightbulb, ThumbsUp, AlertCircle, DollarSign, Target, Radar,
+  MapPin, Scissors, Truck
 } from 'lucide-react';
 
 export const ProviderDashboard = () => {
@@ -26,6 +29,10 @@ export const ProviderDashboard = () => {
   const [myPurchasesOrders, setMyPurchasesOrders] = useState([]);
   const [myServices, setMyServices] = useState([]);
   const [myProducts, setMyProducts] = useState([]);
+  const [reviewIntelligence, setReviewIntelligence] = useState(null);
+  const [analytics, setAnalytics] = useState(null);
+  const [respondingOppId, setRespondingOppId] = useState(null);
+  const [proposalMsg, setProposalMsg] = useState('');
   
   const [isCreateServiceOpen, setIsCreateServiceOpen] = useState(false);
   const [isCreateProductOpen, setIsCreateProductOpen] = useState(false);
@@ -35,7 +42,7 @@ export const ProviderDashboard = () => {
     if (!user) return;
     setLoading(true);
     try {
-      const [profRes, meRes, inBkRes, inOrdRes, myBkRes, myOrdRes, srvRes, prdRes] = await Promise.all([
+      const [profRes, meRes, inBkRes, inOrdRes, myBkRes, myOrdRes, srvRes, prdRes, revIntRes, anaRes] = await Promise.all([
         getProfile(),
         getProviderMe().catch(() => ({ data: null })),
         getBookings({ view: 'incoming' }),
@@ -43,7 +50,9 @@ export const ProviderDashboard = () => {
         getBookings({ view: 'my_requests' }),
         getOrders({ view: 'my_purchases' }),
         getServices({ provider: user.id }),
-        getProducts({ provider: user.id })
+        getProducts({ provider: user.id }),
+        getProviderReviewIntelligence().catch(() => ({ data: null })),
+        getProviderAnalytics().catch(() => ({ data: null }))
       ]);
 
       setProfile(profRes.data);
@@ -54,6 +63,8 @@ export const ProviderDashboard = () => {
       setMyPurchasesOrders(myOrdRes.data || []);
       setMyServices(srvRes.data || []);
       setMyProducts(prdRes.data || []);
+      setReviewIntelligence(revIntRes?.data || null);
+      setAnalytics(anaRes?.data || null);
     } catch (err) {
       console.error(err);
       showToast('Failed to load dashboard data', 'error');
@@ -94,7 +105,7 @@ export const ProviderDashboard = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <div className="w-20 h-20 rounded-3xl bg-saffron-100 text-saffron-700 flex items-center justify-center font-bold text-3xl shadow-warm">
-              {user?.first_name?.[0] || '👩🏽‍🍳'}
+              {user?.first_name?.[0] || <User className="w-8 h-8 text-saffron-700" />}
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -135,33 +146,60 @@ export const ProviderDashboard = () => {
           </div>
         </div>
 
-        {/* 4 Operations KPI Cards */}
+        {/* 4 Operations KPI Cards with Real Data */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-warmgray-200">
           <div className="p-4 bg-white rounded-2xl border border-warmgray-200/80 shadow-warm-sm">
-            <span className="text-xs text-warmgray-500 font-semibold block">Incoming Service Bookings</span>
-            <span className="font-heading text-2xl font-black text-saffron-dark">{incomingBookings.length}</span>
-          </div>
-          <div className="p-4 bg-white rounded-2xl border border-warmgray-200/80 shadow-warm-sm">
-            <span className="text-xs text-warmgray-500 font-semibold block">Incoming Product Orders</span>
-            <span className="font-heading text-2xl font-black text-sage-dark">{incomingOrders.length}</span>
-          </div>
-          <div className="p-4 bg-white rounded-2xl border border-warmgray-200/80 shadow-warm-sm">
-            <span className="text-xs text-warmgray-500 font-semibold block">Active Offerings</span>
-            <span className="font-heading text-2xl font-black text-warmgray-900">
-              {myServices.length} Srv / {myProducts.length} Prd
+            <span className="text-xs text-warmgray-500 font-semibold block flex items-center gap-1">
+              <DollarSign className="w-3.5 h-3.5 text-emerald-600" /> Total Earnings
             </span>
+            <span className="font-heading text-2xl font-black text-emerald-700">
+              ₹{Math.round(analytics?.total_earnings || 0)}
+            </span>
+            <span className="text-[10px] text-warmgray-400 block mt-0.5">from completed bookings & goods</span>
           </div>
           <div className="p-4 bg-white rounded-2xl border border-warmgray-200/80 shadow-warm-sm">
-            <span className="text-xs text-warmgray-500 font-semibold block">My Purchases as Customer</span>
-            <span className="font-heading text-2xl font-black text-blue-600">
-              {myPurchasesBookings.length + myPurchasesOrders.length}
+            <span className="text-xs text-warmgray-500 font-semibold block flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-sage-dark" /> Completed Jobs
             </span>
+            <span className="font-heading text-2xl font-black text-sage-dark">
+              {analytics?.completed_jobs ?? (incomingBookings.filter(b => b.status === 'COMPLETED').length + incomingOrders.filter(o => o.status === 'COMPLETED').length)}
+            </span>
+            <span className="text-[10px] text-warmgray-400 block mt-0.5">verified livelihoods delivered</span>
+          </div>
+          <div className="p-4 bg-white rounded-2xl border border-warmgray-200/80 shadow-warm-sm">
+            <span className="text-xs text-warmgray-500 font-semibold block flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-saffron-dark" /> Pending Requests
+            </span>
+            <span className="font-heading text-2xl font-black text-saffron-dark">
+              {incomingBookings.filter(b => b.status === 'PENDING').length + incomingOrders.filter(o => o.status === 'PENDING').length}
+            </span>
+            <span className="text-[10px] text-warmgray-400 block mt-0.5">awaiting your response</span>
+          </div>
+          <div className="p-4 bg-white rounded-2xl border border-warmgray-200/80 shadow-warm-sm">
+            <span className="text-xs text-warmgray-500 font-semibold block flex items-center gap-1">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" /> Trust & Rating
+            </span>
+            <span className="font-heading text-2xl font-black text-amber-600">
+              {profile?.rating || '5.0'}★
+            </span>
+            <span className="text-[10px] text-warmgray-400 block mt-0.5">({profile?.review_count || 0} reviews • Trust {profile?.trust_score || 95}%)</span>
           </div>
         </div>
       </div>
 
       {/* Operations Tab Navigation */}
       <div className="flex items-center gap-2 border-b border-warmgray-200 pb-2 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('opportunity_radar')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            activeTab === 'opportunity_radar'
+              ? 'bg-saffron text-white shadow-warm'
+              : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
+          }`}
+        >
+          <Radar className="w-3.5 h-3.5" /> Opportunity Radar ({analytics?.recommended_opportunities?.length || 0})
+        </button>
+
         <button
           onClick={() => setActiveTab('incoming_bookings')}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
@@ -170,7 +208,7 @@ export const ProviderDashboard = () => {
               : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
           }`}
         >
-          🧹 Incoming Service Requests ({incomingBookings.length})
+          <Scissors className="w-3.5 h-3.5" /> Incoming Requests ({incomingBookings.length})
         </button>
 
         <button
@@ -181,7 +219,7 @@ export const ProviderDashboard = () => {
               : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
           }`}
         >
-          🛍️ Incoming Product Orders ({incomingOrders.length})
+          <Package className="w-3.5 h-3.5" /> Product Orders ({incomingOrders.length})
         </button>
 
         <button
@@ -192,20 +230,113 @@ export const ProviderDashboard = () => {
               : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
           }`}
         >
-          📋 My Services ({myServices.length}) & Products ({myProducts.length})
+          <ShoppingBag className="w-3.5 h-3.5" /> My Listings ({myServices.length} Srv / {myProducts.length} Prd)
         </button>
 
         <button
-          onClick={() => setActiveTab('my_purchases')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-            activeTab === 'my_purchases'
-              ? 'bg-blue-600 text-white shadow-warm'
+          onClick={() => setActiveTab('review_intelligence')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            activeTab === 'review_intelligence'
+              ? 'bg-amber-600 text-white shadow-warm'
               : 'bg-cream-100 text-warmgray-700 hover:bg-cream-200'
           }`}
         >
-          🛒 My Purchases as Customer ({myPurchasesBookings.length + myPurchasesOrders.length})
+          <Sparkles className="w-3.5 h-3.5" /> AI Review Intelligence
         </button>
       </div>
+
+      {/* Tab: Opportunity Radar */}
+      {activeTab === 'opportunity_radar' && (
+        <div className="space-y-6 animate-fade-in">
+          <div className="flex justify-between items-center bg-gradient-to-r from-saffron/15 via-cream-100 to-sage/15 p-6 rounded-3xl border border-saffron/20">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-saffron-800 flex items-center gap-1.5 mb-1">
+                <Radar className="w-4 h-4 text-saffron" /> Live Neighborhood Opportunities
+              </span>
+              <h2 className="font-heading text-xl font-bold text-warmgray-900">
+                Opportunity Radar
+              </h2>
+              <p className="text-xs text-warmgray-600 mt-1">
+                Real customer requests and local gig inquiries matching your verified skills & location.
+              </p>
+            </div>
+            <button onClick={loadData} className="btn-ghost text-xs flex items-center gap-1 bg-white/70">
+              <RefreshCw className="w-3.5 h-3.5" /> Refresh Radar
+            </button>
+          </div>
+
+          {(!analytics?.recommended_opportunities || analytics.recommended_opportunities.length === 0) ? (
+            <div className="card-surface p-10 text-center space-y-3 border border-dashed border-warmgray-300 rounded-3xl">
+              <div className="w-12 h-12 rounded-full bg-saffron/10 text-saffron flex items-center justify-center mx-auto">
+                <Radar className="w-6 h-6" />
+              </div>
+              <h3 className="font-heading font-bold text-base text-warmgray-900">Scanning Your Area...</h3>
+              <p className="text-xs text-warmgray-600 max-w-md mx-auto">
+                No active neighborhood gig requests right now. New customer requirements in your radius will be matched automatically!
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {analytics.recommended_opportunities.map((opp) => (
+                <div key={opp.id} className="card-surface p-5 rounded-3xl border border-warmgray-200 hover:border-saffron/50 transition-all flex flex-col justify-between space-y-3 shadow-warm-sm bg-white">
+                  <div>
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="badge-tag bg-saffron-50 text-saffron-dark font-bold text-xs">
+                        {opp.category_name || opp.category || 'Local Gig'}
+                      </span>
+                      <span className="font-heading font-black text-emerald-700 text-sm">
+                        ₹{Math.round(opp.budget || 0)}
+                      </span>
+                    </div>
+                    <h4 className="font-heading font-bold text-base text-warmgray-900">{opp.title}</h4>
+                    <p className="text-xs text-warmgray-600 mt-1 line-clamp-2">{opp.description}</p>
+                    
+                    {/* Explainable match reason banner */}
+                    <div className="mt-3 p-2.5 bg-amber-50/60 rounded-xl border border-amber-100 flex items-start gap-2">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5" />
+                      <span className="text-[11px] font-medium text-amber-900">
+                        {opp.recommendation_explanation || "Matched to your verified profile skills."}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {opp.match_reasons?.map((r, rIdx) => (
+                        <span key={rIdx} className="text-[10px] bg-warmgray-100 text-warmgray-700 font-medium px-2 py-0.5 rounded-full">
+                          {r}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-warmgray-100 flex items-center justify-between">
+                    <span className="text-xs text-warmgray-500 font-medium">
+                      <MapPin className="w-3 h-3" /> {opp.location_area || opp.location || 'Nearby'}
+                    </span>
+                    <button
+                      onClick={async () => {
+                        try {
+                          await respondOpportunity(opp.id, {
+                            message: `Hello! I am a verified elder artisan interested in assisting you with '${opp.title}'.`,
+                            proposed_price: opp.budget
+                          });
+                          showToast('Response sent to customer successfully!', 'success');
+                          loadData();
+                        } catch (err) {
+                          showToast('Failed to respond to opportunity', 'error');
+                        }
+                      }}
+                      className="btn-primary py-1.5 px-4 text-xs flex items-center gap-1 shadow-warm"
+                    >
+                      <span>Accept / Express Interest</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Tab 1: Incoming Service Bookings */}
       {activeTab === 'incoming_bookings' && (
@@ -241,7 +372,7 @@ export const ProviderDashboard = () => {
                   <div className="flex flex-wrap gap-3 text-xs text-warmgray-500 border-t border-warmgray-100 pt-3">
                     <span>📅 {b.preferred_date}</span>
                     <span>⏰ {b.preferred_time}</span>
-                    <span>📍 {b.location}</span>
+                    <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {b.location}</span>
                   </div>
 
                   {b.message && (
@@ -254,7 +385,7 @@ export const ProviderDashboard = () => {
                         onClick={() => handleUpdateBooking(b.id, 'CONFIRMED')}
                         className="btn-primary text-xs !py-1.5 !px-3"
                       >
-                        ✓ Accept Request
+                        <Check className="w-3.5 h-3.5" /> Accept Request
                       </button>
                     )}
                     {b.status === 'CONFIRMED' && (
@@ -270,7 +401,7 @@ export const ProviderDashboard = () => {
                         onClick={() => handleUpdateBooking(b.id, 'COMPLETED')}
                         className="btn-secondary text-xs !py-1.5 !px-3"
                       >
-                        ✓ Mark Completed
+                        <Check className="w-3.5 h-3.5" /> Mark Completed
                       </button>
                     )}
                     {b.status !== 'CANCELLED' && b.status !== 'COMPLETED' && (
@@ -338,7 +469,7 @@ export const ProviderDashboard = () => {
                         onClick={() => handleUpdateOrder(o.id, 'DELIVERED')}
                         className="btn-secondary text-xs !py-1.5 !px-3"
                       >
-                        ✓ Mark Delivered
+                        <Truck className="w-3.5 h-3.5" /> Mark Delivered
                       </button>
                     )}
                   </div>
@@ -470,6 +601,126 @@ export const ProviderDashboard = () => {
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Tab: AI Review Intelligence */}
+      {activeTab === 'review_intelligence' && (
+        <div className="space-y-6 animate-fade-in">
+          <div className="flex justify-between items-center bg-[#EAF5FC] p-6 rounded-3xl border border-[#3F9BE8]/30">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1F6FB2] flex items-center gap-1.5 mb-1">
+                <Sparkles className="w-4 h-4 text-[#3F9BE8]" /> Elder Artisan Feedback Analytics
+              </span>
+              <h2 className="font-heading text-xl font-bold text-warmgray-900">
+                AI Review Intelligence & Customer Insights
+              </h2>
+              <p className="text-xs text-warmgray-600 mt-1">
+                Synthesized directly from verified customer reviews on your completed bookings.
+              </p>
+            </div>
+            {reviewIntelligence && (
+              <div className="text-right">
+                <div className="flex items-center gap-1 justify-end font-heading font-black text-2xl text-amber-600">
+                  <Star className="w-6 h-6 fill-amber-400 text-amber-500" />
+                  <span>{reviewIntelligence.average_rating || '5.0'}</span>
+                </div>
+                <span className="text-xs text-warmgray-500">{reviewIntelligence.total_reviews || 0} verified reviews</span>
+              </div>
+            )}
+          </div>
+
+          {!reviewIntelligence || !reviewIntelligence.has_sufficient_data ? (
+            <div className="card-surface p-8 text-center space-y-3 border border-dashed border-warmgray-300 rounded-3xl">
+              <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
+                <MessageSquare className="w-6 h-6" />
+              </div>
+              <h3 className="font-heading font-bold text-base text-warmgray-900">Building Your Reputation</h3>
+              <p className="text-xs text-warmgray-600 max-w-md mx-auto">
+                {reviewIntelligence?.message || "Not enough customer feedback yet to generate reliable insights. Complete bookings and encourage customers to leave reviews!"}
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Executive Summary */}
+              <div className="card-surface p-6 rounded-3xl border border-warmgray-200 shadow-warm-sm bg-white space-y-2">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-warmgray-500 flex items-center gap-1.5">
+                  <Lightbulb className="w-4 h-4 text-saffron" /> Overall Reputation Summary
+                </h3>
+                <p className="text-sm font-medium text-warmgray-800 leading-relaxed">
+                  "{reviewIntelligence.summary}"
+                </p>
+              </div>
+
+              {/* 2-Column Grid: Strengths & Growth Areas */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Strengths */}
+                <div className="card-surface p-6 rounded-3xl border border-emerald-100 bg-emerald-50/30 space-y-3">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                    <ThumbsUp className="w-4 h-4 text-emerald-600" /> Verified Strengths
+                  </h3>
+                  <div className="space-y-2">
+                    {reviewIntelligence.strengths?.map((s, idx) => (
+                      <div key={idx} className="flex items-start gap-2 bg-white/80 p-3 rounded-2xl border border-emerald-100 text-xs font-medium text-warmgray-800">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span>{s}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Improvement Areas */}
+                <div className="card-surface p-6 rounded-3xl border border-amber-100 bg-amber-50/30 space-y-3">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
+                    <TrendingUp className="w-4 h-4 text-amber-600" /> Opportunities for Growth
+                  </h3>
+                  <div className="space-y-2">
+                    {reviewIntelligence.improvement_areas?.map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-2 bg-white/80 p-3 rounded-2xl border border-amber-100 text-xs font-medium text-warmgray-800">
+                        <Sparkles className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Customer Preferences & Demand Signals */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {reviewIntelligence.customer_preferences?.length > 0 && (
+                  <div className="card-surface p-6 rounded-3xl border border-blue-100 bg-blue-50/30 space-y-3">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-blue-800">
+                      ❤️ What Customers Value Most
+                    </h3>
+                    <ul className="space-y-1.5 text-xs text-warmgray-700">
+                      {reviewIntelligence.customer_preferences.map((p, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                          <span>{p}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {reviewIntelligence.demand_signals?.length > 0 && (
+                  <div className="card-surface p-6 rounded-3xl border border-purple-100 bg-purple-50/30 space-y-3">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-purple-800">
+                      📈 Emerging Demand Signals
+                    </h3>
+                    <ul className="space-y-1.5 text-xs text-warmgray-700">
+                      {reviewIntelligence.demand_signals.map((d, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

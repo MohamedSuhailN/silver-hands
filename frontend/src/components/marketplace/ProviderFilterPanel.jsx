@@ -3,15 +3,15 @@ import { Search, RotateCcw, SlidersHorizontal, ShieldCheck } from 'lucide-react'
 
 export const ProviderFilterPanel = ({ filters, onChange, categories, onReset }) => {
   return (
-    <div className="card-surface p-6 space-y-5 border border-warmgray-200 shadow-warm">
-      <div className="flex items-center justify-between pb-3 border-b border-warmgray-100">
-        <h3 className="font-heading font-bold text-base text-warmgray-900 flex items-center gap-2">
-          <SlidersHorizontal className="w-4 h-4 text-purple-600" />
+    <div className="card-surface p-6 space-y-5 border border-[#DCEAF4] shadow-sm">
+      <div className="flex items-center justify-between pb-3 border-b border-[#E8F1F7]">
+        <h3 className="font-heading font-bold text-base text-[#163A5F] flex items-center gap-2">
+          <SlidersHorizontal className="w-4 h-4 text-[#3F9BE8]" />
           Filter Artisans
         </h3>
         <button
           onClick={onReset}
-          className="text-xs font-bold text-warmgray-500 hover:text-purple-600 flex items-center gap-1 transition-colors"
+          className="text-xs font-bold text-[#64748B] hover:text-[#3F9BE8] flex items-center gap-1 transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           Reset

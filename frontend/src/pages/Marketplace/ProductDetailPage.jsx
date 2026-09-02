@@ -42,6 +42,7 @@ export const ProductDetailPage = () => {
             src={product.image_url || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'}
             alt={product.title}
             className="w-full h-full object-cover"
+            onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'; }}
           />
           <div className="absolute top-4 left-4 bg-sage text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
             Handmade by Elder

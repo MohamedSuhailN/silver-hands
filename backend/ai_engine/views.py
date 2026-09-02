@@ -1,4 +1,4 @@
-﻿from decimal import Decimal
+from decimal import Decimal
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -78,6 +78,7 @@ class AIAssistantView(APIView):
             'message': result.get('message'),
             'confirmation_needed': result.get('confirmation_needed', False),
             'extracted_data': result.get('extracted_data'),
+            'matches': result.get('matches', []),
         }
         
         # Add navigation target if present

@@ -19,10 +19,10 @@ export const RadarMapView = ({ opportunities, onSelect }) => {
 
       {/* Simulated Interactive Radar Grid */}
       <div className="relative h-64 rounded-2xl bg-white border border-warmgray-200 shadow-inner overflow-hidden flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-[radial-gradient(#D96B27_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#3F9BE8_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
         
         {/* Concentric radar rings */}
-        <div className="absolute w-48 h-48 rounded-full border border-saffron/20 animate-ping"></div>
+        <div className="absolute w-48 h-48 rounded-full border border-[#3F9BE8]/20 animate-ping"></div>
         <div className="absolute w-36 h-36 rounded-full border border-sage/30"></div>
         <div className="absolute w-20 h-20 rounded-full border border-saffron/40"></div>
 

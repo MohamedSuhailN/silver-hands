@@ -1,4 +1,4 @@
-﻿import re
+import re
 from typing import Any, Dict, List, Optional
 from django.db.models import Q
 from marketplace.models import ProviderProfile, Service, Product, Category, haversine_km
@@ -23,17 +23,18 @@ def match_providers(
     language: str = "",
     preferred_time: str = "",
     required_skills: Optional[List[str]] = None,
+    sort_by: str = "relevance", # relevance, rating, experience, location
     limit: int = 6,
     lat: Optional[float] = None,
     lng: Optional[float] = None,
 ) -> Dict[str, Any]:
     """
     Strict Semantic & Keyword Matcher:
-    ONLY returns services, products, and providers that genuinely match the query.
+    ONLY returns services, products, and providers that genuinely match the query from the database.
     """
     req_text = (requirement_text or "").strip()
     req_lower = req_text.lower()
-    words = [w for w in re.findall(r'\b[a-zA-Z]{3,}\b', req_lower) if w not in ['need', 'want', 'looking', 'some', 'someone', 'please', 'for', 'the', 'and', 'with', 'from']]
+    words = [w for w in re.findall(r'\b[a-zA-Z]{3,}\b', req_lower) if w not in ['need', 'want', 'looking', 'some', 'someone', 'please', 'for', 'the', 'and', 'with', 'from', 'show', 'best', 'closer']]
 
     # 1. Detect Intent Category
     detected_cat = category.lower() if category else ""
@@ -84,11 +85,21 @@ def match_providers(
         for w in words:
             provider_q |= Q(skills__icontains=w) | Q(bio__icontains=w) | Q(services__title__icontains=w)
 
+    if location:
+        provider_q |= Q(location__icontains=location)
+
     providers_qs = ProviderProfile.objects.select_related('user').prefetch_related('services', 'products').filter(provider_q).distinct()
+
+    # Fallback to all providers if query is generic or location-based
+    if not providers_qs.exists() and (location or detected_cat):
+        fallback_q = Q()
+        if location: fallback_q |= Q(location__icontains=location)
+        if detected_cat: fallback_q |= Q(services__category__slug=detected_cat)
+        providers_qs = ProviderProfile.objects.select_related('user').prefetch_related('services', 'products').filter(fallback_q).distinct()
 
     scored_providers = []
     for p in providers_qs:
-        score = 60 # Base score for having a verified matching skill/category
+        score = 60 # Base score for having a verified matching profile
         reasons = []
 
         p_skills = [str(s).lower() for s in (p.skills or [])]
@@ -98,7 +109,7 @@ def match_providers(
             reasons.append(f"Expertise in {', '.join([s.title() for s in matched_skills])}")
 
         p_services = [s for s in p.services.all() if s.is_available]
-        matching_p_services = [s for s in p_services if any(w in s.title.lower() for w in words) or (detected_cat and s.category.slug == detected_cat)]
+        matching_p_services = [s for s in p_services if any(w in s.title.lower() for w in words) or (detected_cat and s.category and s.category.slug == detected_cat)]
         if matching_p_services:
             score += 15
             reasons.append(f"Offers '{matching_p_services[0].title}'")
@@ -112,18 +123,40 @@ def match_providers(
             reasons.append(f"Fluent in {language.title()}")
 
         if location and location.lower() in str(p.location).lower():
-            score += 10
-            reasons.append(f"Located in {p.location}")
+            score += 15
+            reasons.append(f"Located near {p.location}")
+
+        if p.rating and float(p.rating) >= 4.5:
+            score += 5
+            reasons.append(f"Rated {p.rating}★")
+
+        # Create natural language explanation
+        explanation = f"{p.display_name} is a strong match"
+        if reasons:
+            explanation += f" because of {', '.join(reasons[:2]).lower()}."
+        else:
+            explanation += " based on your requested criteria."
 
         scored_providers.append({
             "provider": ProviderProfileSerializer(p).data,
             "provider_id": p.id,
             "provider_name": p.display_name,
+            "location": p.location,
+            "experience_years": p.experience_years,
+            "rating": float(p.rating) if p.rating else 5.0,
+            "review_count": p.review_count,
             "match_score": min(99, score),
-            "reasons": reasons[:3] if reasons else ["Skills match your query"]
+            "reasons": reasons[:3] if reasons else ["Skills match your query"],
+            "explanation": explanation
         })
 
-    scored_providers.sort(key=lambda x: x["match_score"], reverse=True)
+    # Sort based on refinement preference
+    if sort_by == 'rating' or 'rating' in req_lower or 'best' in req_lower:
+        scored_providers.sort(key=lambda x: (x["rating"], x["match_score"]), reverse=True)
+    elif sort_by == 'experience' or 'experience' in req_lower or 'senior' in req_lower:
+        scored_providers.sort(key=lambda x: (x["experience_years"], x["match_score"]), reverse=True)
+    else:
+        scored_providers.sort(key=lambda x: x["match_score"], reverse=True)
 
     return {
         "query": req_text,

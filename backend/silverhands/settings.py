@@ -128,8 +128,8 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-# External AI Configuration (Gemini Live Engine)
-AI_PROVIDER = os.getenv('AI_PROVIDER', 'gemini')
-AI_API_KEY = os.getenv('AI_API_KEY', '')
-AI_MODEL = os.getenv('AI_MODEL', 'gemini-3.7-flash')
-AI_BASE_URL = os.getenv('AI_BASE_URL', '')
+# External AI Configuration (Groq Engine)
+AI_PROVIDER = os.getenv('AI_PROVIDER', 'groq')
+AI_API_KEY = os.getenv('AI_API_KEY') or os.getenv('GROQ_API_KEY') or os.getenv('XAI_API_KEY', '')
+AI_MODEL = os.getenv('AI_MODEL', 'groq/compound')
+AI_BASE_URL = os.getenv('AI_BASE_URL', 'https://api.groq.com/openai/v1/chat/completions')

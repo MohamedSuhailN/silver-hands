@@ -67,6 +67,7 @@ export const getProviders = (params) => api.get('/providers/', { params });
 export const getProvider = (id, params) => api.get(`/providers/${id}/`, { params });
 export const getProviderMe = () => api.get('/providers/me/');
 export const updateProviderMe = (data) => api.patch('/providers/me/', data);
+export const getProviderAnalytics = () => api.get('/providers/me/analytics/');
 export const getProviderReviews = (id) => api.get(`/providers/${id}/reviews/`);
 export const getBookings = (params) => api.get('/bookings/', { params });
 export const createBooking = (data) => api.post('/bookings/', data);
@@ -84,6 +85,7 @@ export const createConversation = (providerId) => api.post('/conversations/', { 
 export const getConversation = (id) => api.get(`/conversations/${id}/`);
 export const sendMessage = (convId, text) => api.post(`/conversations/${convId}/messages/`, { text });
 export const createReview = (data) => api.post('/reviews/', data);
+export const getProviderReviewIntelligence = () => api.get('/reviews/intelligence/');
 
 // 6. AI Intelligence Engine
 export const aiMatch = (data) => api.post('/ai/match/', data);

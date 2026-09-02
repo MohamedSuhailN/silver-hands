@@ -53,10 +53,15 @@ export const ProvidersPage = () => {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="page-title text-3xl sm:text-4xl">Verified Homemakers & Elder Artisans</h1>
-        <p className="text-xs sm:text-sm text-warmgray-500 mt-1">
-          Discover certified homemakers and elders in Chennai carrying decades of practical cultural mastery
+      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#DCEAF4] shadow-sm space-y-2">
+        <span className="badge-tag bg-[#EAF5FC] text-[#1F6FB2] font-bold">
+          Decades of Practical Mastery
+        </span>
+        <h1 className="page-title text-3xl sm:text-4xl font-extrabold text-[#163A5F] tracking-tight">
+          Verified Homemakers & Elder Artisans
+        </h1>
+        <p className="text-sm sm:text-base text-[#64748B] max-w-2xl leading-relaxed font-medium">
+          Discover certified homemakers and elders in Chennai carrying decades of authentic Indian home cooking, tailoring, tutoring, and handcrafted skills.
         </p>
       </div>
 

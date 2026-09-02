@@ -247,7 +247,7 @@ class Command(BaseCommand):
                         'duration': dur,
                         'languages': langs,
                         'rating': pdata['rating'],
-                        'image_url': f"https://picsum.photos/seed/{pdata['username']}-{cat_slug}/400/300"
+                        'image_url': 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=600&q=80' if cat_slug == 'cooking' else 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80' if cat_slug == 'tailoring' else 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80' if cat_slug == 'tutoring' else 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=600&q=80'
                     }
                 )
 
@@ -260,7 +260,7 @@ class Command(BaseCommand):
                         'description': f"Handcrafted, high quality {title} made fresh by {prof.display_name}.",
                         'price': Decimal(str(price)),
                         'quantity': qty,
-                        'image_url': f"https://picsum.photos/seed/{pdata['username']}-prod/400/300"
+                        'image_url': 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'
                     }
                 )
 

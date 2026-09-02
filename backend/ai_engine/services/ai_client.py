@@ -39,6 +39,11 @@ class AIClient:
         self.timeout_seconds = 20
         self.max_retries = 1
         self._initialized = True
+        
+        if self.is_configured():
+            logger.info(f"AI provider configured: {self.provider.upper()} using model {self.model}")
+        else:
+            logger.warning("AI provider not configured. Missing API key in environment or .env.")
 
     @property
     def provider(self) -> str:
@@ -74,7 +79,7 @@ class AIClient:
 
         # If API key is not configured, use local fallback if available
         if not self.is_configured():
-            logger.info("AI_API_KEY is not set. Using local rule-based response.")
+            logger.error("DIAGNOSTIC ERROR: AI_API_KEY is not set in .env. Real LLM cannot be reached.")
             if default_fallback is not None:
                 return default_fallback
             raise AIServiceException("AI service key is not configured in .env.", status_code=503)
@@ -111,46 +116,29 @@ class AIClient:
         if self.provider == 'openai':
             return self._call_openai(prompt, system_instruction)
         else:
-            return self._call_gemini(prompt, system_instruction)
+            return self._call_xai(prompt, system_instruction)
 
-    def _call_gemini(self, prompt: str, system_instruction: str) -> str:
-        """Calls Google Gemini API using google-genai SDK or direct REST fallback."""
-        try:
-            from google import genai
-            from google.genai import types
-
-            client = genai.Client(api_key=self.api_key)
-            config = types.GenerateContentConfig(
-                system_instruction=system_instruction + "\nRespond in pure valid JSON.",
-                response_mime_type="application/json",
-                temperature=0.2
-            )
-            response = client.models.generate_content(
-                model=self.model or "gemini-3.7-flash",
-                contents=prompt,
-                config=config
-            )
-            if response and response.text:
-                return response.text
-        except ImportError:
-            pass
-
-        # Direct REST fallback
-        url = self.base_url or f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
+    def _call_xai(self, prompt: str, system_instruction: str) -> str:
+        """Calls xAI Grok API using OpenAI-compatible REST endpoints."""
+        url = self.base_url or "https://api.x.ai/v1/chat/completions"
         headers = {
             "Content-Type": "application/json",
-            "x-goog-api-key": self.api_key,
+            "Authorization": f"Bearer {self.api_key}"
         }
         payload = {
-            "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-            "systemInstruction": {"parts": [{"text": system_instruction + "\nCRITICAL: Respond ONLY in pure valid JSON."}]},
-            "generationConfig": {"temperature": 0.2, "responseMimeType": "application/json"}
+            "model": self.model or "grok-4.6",
+            "messages": [
+                {"role": "system", "content": system_instruction + "\nCRITICAL: Respond ONLY in pure valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.2,
+            "response_format": {"type": "json_object"}
         }
 
         response = requests.post(url, headers=headers, json=payload, timeout=self.timeout_seconds)
         response.raise_for_status()
         data = response.json()
-        return data["candidates"][0]["content"]["parts"][0]["text"]
+        return data["choices"][0]["message"]["content"]
 
     def _call_openai(self, prompt: str, system_instruction: str) -> str:
         """Calls OpenAI or OpenAI-compatible API."""
