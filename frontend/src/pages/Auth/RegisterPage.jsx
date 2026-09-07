@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { Mic, ArrowRight } from 'lucide-react';
+import { Mic, ArrowRight, ShoppingBag, HandHeart } from 'lucide-react';
 
 export const RegisterPage = () => {
+  const location = useLocation();
+  const voiceData = location.state?.voiceData;
+  const extractedName = voiceData?.name?.trim().split(/\s+/) || [];
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
+    username: voiceData?.username || '',
+    email: voiceData?.email || '',
     password: '',
-    first_name: '',
-    last_name: '',
+    first_name: extractedName[0] || '',
+    last_name: extractedName.slice(1).join(' '),
     phone: '',
-    role: 'CUSTOMER',
-    address: 'Adyar, Chennai, TN',
-    preferred_language: 'en',
+    role: location.state?.role || 'CUSTOMER',
+    address: voiceData?.location || 'Adyar, Chennai, TN',
+    preferred_language: location.state?.language || 'en',
     is_senior: false
   });
   const [loading, setLoading] = useState(false);
@@ -42,7 +45,9 @@ export const RegisterPage = () => {
       role: formData.role,
       address: formData.address,
       preferred_language: formData.preferred_language,
-      is_senior: formData.is_senior
+      is_senior: formData.is_senior,
+      skills: voiceData?.skills || [],
+      experience_years: voiceData?.experience_years || undefined
     };
 
     const result = await register(payload);
@@ -87,7 +92,8 @@ export const RegisterPage = () => {
                   : 'border-[#DCEAF4] bg-white text-[#64748B] hover:bg-[#F5F9FC]'
               }`}
             >
-              🛍️ Customer / Buyer
+              <ShoppingBag className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
+              <span>Customer / Buyer</span>
             </button>
             <button
               type="button"
@@ -98,7 +104,8 @@ export const RegisterPage = () => {
                   : 'border-[#DCEAF4] bg-white text-[#64748B] hover:bg-[#F5F9FC]'
               }`}
             >
-              👩🏽‍🍳 Homemaker / Elder Artisan
+              <HandHeart className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
+              <span>Homemaker / Elder Artisan</span>
             </button>
           </div>
         </div>

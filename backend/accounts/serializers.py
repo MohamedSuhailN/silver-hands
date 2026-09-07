@@ -19,18 +19,23 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=4)
     location = serializers.CharField(required=False, allow_blank=True, write_only=True)
     languages = serializers.ListField(child=serializers.CharField(), required=False, write_only=True)
+    skills = serializers.ListField(child=serializers.CharField(), required=False, write_only=True)
+    experience_years = serializers.IntegerField(required=False, min_value=0, write_only=True)
 
     class Meta:
         model = User
         fields = [
             'username', 'email', 'password', 'first_name', 'last_name',
             'role', 'phone', 'is_senior', 'preferred_language',
-            'address', 'latitude', 'longitude', 'location', 'languages'
+            'address', 'latitude', 'longitude', 'location', 'languages',
+            'skills', 'experience_years'
         ]
 
     def create(self, validated_data):
         location = validated_data.pop('location', '')
         languages = validated_data.pop('languages', ['en'])
+        skills = validated_data.pop('skills', ['Traditional Craft'])
+        experience_years = validated_data.pop('experience_years', 5)
         password = validated_data.pop('password')
         
         user = User(**validated_data)
@@ -55,7 +60,8 @@ class RegisterSerializer(serializers.ModelSerializer):
                 latitude=user.latitude,
                 longitude=user.longitude,
                 languages=languages,
-                skills=['Traditional Craft']
+                skills=skills or ['Traditional Craft'],
+                experience_years=experience_years
             )
         return user
 
